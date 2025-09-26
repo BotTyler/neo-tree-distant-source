@@ -1,5 +1,5 @@
-local distant = require("distant")
 local find_dirs = require("distant_source.lib.distant.find_dirs")
+local open_file = require("distant_source.lib.distant.open_file")
 local renderer = require("neo-tree.ui.renderer")
 
 -- Find a window that is not neo-tree
@@ -41,7 +41,7 @@ local handleFileInteraction = function(state, node)
 	local win = pick_target_window()
 	vim.api.nvim_set_current_win(win)
 
-	distant.editor.open({ path = node.path })
+	open_file(node.path)
 end
 
 -- Handle opening of a file/directory

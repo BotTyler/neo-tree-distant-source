@@ -1,6 +1,6 @@
 local distant = require("distant")
 
----@class Tree_Node
+---@class Node
 ---@field id string
 ---@field name string
 ---@field type "directory" | "file" | "custom"
@@ -28,7 +28,7 @@ local function convertToNodeTable(dirEntity)
 
 		-- TODO: ID generation here is not advised. But I am not sure what I want it to be
 		table.insert(result, {
-			id = path .. "-" .. index,
+			id = path,
 			name = name,
 			type = type,
 			path = path,
