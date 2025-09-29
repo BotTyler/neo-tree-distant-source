@@ -1,6 +1,6 @@
 local find_dirs = require("distant_source.lib.distant.find_dirs")
 local open_file = require("distant_source.lib.distant.open_file")
-local renderer = require("neo-tree.ui.renderer")
+local node_utils = require("distant_source.lib.utils.node_utils")
 
 -- Find a window that is not neo-tree
 local function pick_target_window()
@@ -29,15 +29,14 @@ local handleDirectoryInteraction = function(state, node)
 	if is_expanded == true then
 		-- Folder needs to be closed
 		node:collapse()
-		renderer.redraw(state)
+		node_utils.redraw(state)
 	else
-		local path = node.path
 		node.children = node.children or {}
-		renderer.show_nodes(find_dirs(path), state, node.id)
+    node_utils.refresh_node_by_id(state, node.id)
 	end
 end
 
-local handleFileInteraction = function(state, node)
+local handleFileInteraction = function(_, node)
 	local win = pick_target_window()
 	vim.api.nvim_set_current_win(win)
 
@@ -54,6 +53,6 @@ return function(state)
 	elseif type == "file" then
 		handleFileInteraction(state, node)
 	else
-		vim.notify("Not implemented", vim.inspect(node))
+		vim.notify("Not implemented", vim.log.levels.ERROR)
 	end
 end

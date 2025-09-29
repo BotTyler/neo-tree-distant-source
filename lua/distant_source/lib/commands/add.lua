@@ -1,8 +1,7 @@
 local input = require("neo-tree.ui.inputs")
 local distant_insert = require("distant_source.lib.distant.add_item")
-local renderer = require("neo-tree.ui.renderer")
-local find_dirs = require("distant_source.lib.distant.find_dirs")
 local path_utils = require("distant_source.lib.utils.path_util")
+local node_utils = require("distant_source.lib.utils.node_utils")
 
 -- Handle adding a file on the remote distant connection.
 return function(state)
@@ -17,7 +16,7 @@ return function(state)
 		path = path_utils.get_parent_path(path)
 	end
 
-	input.input("Insert a path (/ for directory)", "", function(addition)
+	input.input("Enter name for new file (Directories end in /):", "", function(addition)
 		addition = path_utils.sanitize_path(addition)
 		local full_insert_path = path_utils.concat_path(path, addition)
 
@@ -32,6 +31,6 @@ return function(state)
 		end
 
 		-- Refresh parent directory nodes
-		renderer.show_nodes(find_dirs(path), state, path)
+    node_utils.refresh_node_by_id(state, path)
 	end)
 end

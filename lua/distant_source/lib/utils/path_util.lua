@@ -1,6 +1,7 @@
 local M = {}
 
--- TODO: This file only supports posix os.
+-- TODO: This file only supports linux.
+-- TODO: This file needs testing
 
 ---@param path string
 ---@return string

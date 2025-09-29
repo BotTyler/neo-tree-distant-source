@@ -1,4 +1,5 @@
 local distant = require("distant")
+local path_utils = require("distant_source.lib.utils.path_util")
 
 ---@class Node
 ---@field id string
@@ -10,13 +11,12 @@ local distant = require("distant")
 
 ---@param dirEntity distant.core.api.DirEntry[]
 local function convertToNodeTable(dirEntity)
-	---@type Tree_Node[]
 	local result = {}
 
-	for index, item in pairs(dirEntity) do
+	for _, item in pairs(dirEntity) do
 		local path = item.path
 		local type
-		local name = path:match("([^/\\]+)$") -- Match the last part of the path.
+		local name = path_utils.get_end_of_path(path)
 
 		if item.file_type == "file" then
 			type = "file"
@@ -26,7 +26,6 @@ local function convertToNodeTable(dirEntity)
 			type = "custom"
 		end
 
-		-- TODO: ID generation here is not advised. But I am not sure what I want it to be
 		table.insert(result, {
 			id = path,
 			name = name,
